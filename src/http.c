@@ -365,15 +365,17 @@ http_send_header(http_connection_t *hc, int rc, const char *content,
   htsbuf_qprintf(&hdrs, "%s %d %s\r\n", 
 		 http_ver2str(hc->hc_version), rc, http_rc2str(rc));
 
-  if (hc->hc_version != RTSP_VERSION_1_0){
+if (hc->hc_version != RTSP_VERSION_1_0) {
     htsbuf_qprintf(&hdrs, "Server: %s\r\n", config_get_http_server_name());
+    
+    // Check if CORS is enabled and a specific origin is provided
     if (config.cors_origin && config.cors_origin[0]) {
-      htsbuf_qprintf(&hdrs, "Access-Control-Allow-Origin: %s\r\n%s%s%s", config.cors_origin,
-                            "Access-Control-Allow-Methods: POST, GET, OPTIONS\r\n",
-                            "Access-Control-Allow-Headers: x-requested-with,authorization,content-type\r\n",
-                            "Access-Control-Allow-Credentials: true\r\n");
+        htsbuf_qprintf(&hdrs, "Access-Control-Allow-Origin: %s\r\n", config.cors_origin);
+        htsbuf_qprintf(&hdrs, "Access-Control-Allow-Methods: POST, GET, OPTIONS\r\n");
+        htsbuf_qprintf(&hdrs, "Access-Control-Allow-Headers: x-requested-with,authorization,content-type\r\n");
+        htsbuf_qprintf(&hdrs, "Access-Control-Allow-Credentials: true\r\n");
     }
-  }
+}
   
   if(maxage == 0) {
     if (hc->hc_version != RTSP_VERSION_1_0)
