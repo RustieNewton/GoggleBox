@@ -373,7 +373,7 @@ if (hc->hc_version != RTSP_VERSION_1_0) {
         htsbuf_qprintf(&hdrs, "Access-Control-Allow-Origin: %s\r\n", config.cors_origin);
         htsbuf_qprintf(&hdrs, "Access-Control-Allow-Methods: POST, GET, OPTIONS\r\n");
         htsbuf_qprintf(&hdrs, "Access-Control-Allow-Headers: x-requested-with,authorization,content-type\r\n");
-        htsbuf_qprintf(&hdrs, "Access-Control-Allow-Credentials: true\r\n");
+        htsbuf_qprintf(&hdrs, "Access-Control-Allow-Credentials: false\r\n");
     }
 }
   
